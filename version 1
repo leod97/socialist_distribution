@@ -1,0 +1,50 @@
+def socialist_distribution(population, minimum):
+    rich=[]
+    poor=[]
+    
+    for i in range(len(population)):
+        population[i]=population[i]-minimum
+        if population [i]>0:
+            rich.append(population[i])
+        else:
+            poor.append(population[i])
+    if sum(rich)<abs(sum(poor)):
+        return []
+    n=len(rich)
+    
+# poor list  
+    if n>0:
+     
+        count=0
+        for i in range(len(poor)):
+        
+            while poor[i]<0:
+            
+                poor[i]+=1
+                count+=1
+#  rich list
+        
+        sort_rich=sorted(rich)
+        if n==1:
+            rich[0]-=count
+        if n>1:
+            if max(rich)-count>sort_rich[-2]:
+#                 max(rich)-=count
+                rich[rich.index(max(rich))] = max(rich)-count
+            elif max(rich)-count<=sort_rich[-2]:
+                count-=max(rich)-sort_rich[-2]
+#                 max(rich)=sort_rich[-2]
+                rich[rich.index(max(rich))] = sort_rich[-2]
+                a=int(count/n)
+                b=count%n
+                for i in range(n):
+                    rich[i]-=a
+                if b!=0:
+                    for i in range(b):
+                        rich[i]-=1
+        population=poor+rich
+        for i in range(len(population)):
+            population[i]=population[i]+minimum       
+        return population
+    else:
+        return []
